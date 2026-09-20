@@ -10,3 +10,17 @@ A python program that takes students details, subjects, working days, and presen
 -Search student by registration number
 -Menu-based options
 -Lists, loops, conditional statements, and user input
+
+## Technologies
+-Python
+-VS Code
+-Git & GitHub
+
+## Goals
+-Apply concepts learned during my B.Tech CSE coursework
+-Build practical projects to strengthen programming skills
+-Improve problem-solving and logical thinking
+-Practice Data Structures and Algorithms
+-Learn to design and develop projects independently
+-Explore different technologies and programming languages
+-Maintain and improve projects throughout my college journey
