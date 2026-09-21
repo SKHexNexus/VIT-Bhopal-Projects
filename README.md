@@ -1,15 +1,14 @@
 # VIT-Bhopal-Projects
-Projects and Coding Work Completed During my B.Tech CSE at VIT Bhopal
 
-## Projects
-
-### Student Attendance Tracker (CLI)
-
-A lightweight Command Line Interface (CLI) application built using Python to record, evaluate, and report student attendance across multiple subjects.
+Projects and coding deliverables completed during my B.Tech Computer Science and Engineering coursework at VIT Bhopal University.
 
 ---
 
-#### Features
+## Student Attendance Tracker (CLI)
+
+A lightweight Command Line Interface (CLI) application built using Python to record, evaluate, and report student attendance across multiple subjects.
+
+### Features
 
 - **Multi-Student Data Entry**: Input names, registration numbers, subject counts, total working days, and present days.
 - **Automated Percentage & Performance Categorization**:
@@ -24,14 +23,15 @@ A lightweight Command Line Interface (CLI) application built using Python to rec
 
 ---
 
-#### Prerequisites
+### Prerequisites
 
-- **Python 3.x** installed on your system.
-- Standard Command Line / Terminal / Shell environment.
+- **Python Version**: `Python 3.14.7` (or Python 3.x)
+- **Dependencies**: Standard Library only (No external packages required)
+- **Environment**: Command Line / Terminal / Shell
 
 ---
 
-#### Setup & Execution Instructions
+### Setup & Execution Instructions
 
 1. **Clone the Repository**:
    ```bash
