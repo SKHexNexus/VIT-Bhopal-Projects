@@ -1,110 +1,105 @@
 """
 Student Attendance Tracker CLI
-Python Version: 3.14.7
 """
+def ask_int(msg, lo=None, hi=None):
+    """Keep asking until the user types a valid whole number in range."""
+    while True:
+        try:
+            v = int(input(msg).strip())
+        except ValueError:
+            print("Please enter a whole number.")
+            continue
+        if lo is not None and v < lo:
+            print(f"Value must be at least {lo}.")
+        elif hi is not None and v > hi:
+            print(f"Value must be at most {hi}.")
+        else:
+            return v
 
-def display(j, subject, total, present):
-    percentage = (present[j] / total[j]) * 100 if total[j] > 0 else 0
-    
-    if percentage >= 90:
-        status = "Excellent - Keep Going"
-    elif percentage >= 80:
-        status = "Good - Try to Improve"
-    elif percentage >= 75:
-        status = "Satisfactory - Improvement Needed"
-    else:
-        status = "Critical - Attend Classes Strictly"
-        
-    print(f"{subject[j]}: {percentage:.2f}%  | Status: {status}")
+def ask_text(msg):
+    """Keep asking until the user types something non-empty."""
+    while True:
+        s = input(msg).strip()
+        if s:
+            return s
+        print("This field cannot be empty.")
 
+def get_status(pct):
+    if pct >= 90:
+        return "Excellent - Keep Going"
+    if pct >= 80:
+        return "Good - Try to Improve"
+    if pct >= 75:
+        return "Satisfactory - Improvement Needed"
+    return "Critical - Attend Classes Strictly"
+
+def show(st):
+    print(f"\nName: {st['name']}")
+    print(f"Registration No.: {st['reg']}")
+    for sub, tot, pre in st["subs"]:
+        pct = (pre / tot) * 100
+        print(f"{sub}: {pct:.2f}%  | Status: {get_status(pct)}")
+
+def add_student(i, done):
+    print(f"\n--- Entry for Student {i} ---")
+    name = ask_text(f"Enter Name of Student {i}: ")
+
+    while True:
+        reg = ask_text(f"Enter Registration Number of Student {i}: ")
+        if reg.lower() in done:
+            print("This registration number already exists. Try again.")
+        else:
+            break
+
+    k = ask_int("Enter the Number of Subjects: ", lo=1)
+    subs = []
+    for j in range(1, k + 1):
+        sub = ask_text(f"Enter Name of Subject {j}: ")
+        tot = ask_int(f"Enter Total Working Days in {sub}: ", lo=1)
+        pre = ask_int(f"Enter Days Present in {sub}: ", lo=0, hi=tot)
+        subs.append((sub, tot, pre))
+
+    return {"name": name, "reg": reg, "subs": subs}
 
 def main():
-    try:
-        n = int(input("Enter the Number of students: "))
-    except ValueError:
-        print("Invalid input. Please enter an integer.")
-        return
+    n = ask_int("Enter the Number of students: ", lo=1)
 
-    student = []
-    reg = []
-    sub_num = []
-    subject = []
-    total = []
-    present = []
-    t = 0
+    students = []
+    done = set()
+    for i in range(1, n + 1):
+        st = add_student(i, done)
+        students.append(st)
+        done.add(st["reg"].lower())
 
-    for i in range(n):
-        print(f"\n--- Entry for Student {i+1} ---")
-        student.append(input(f"Enter Name of Student {i+1}: "))
-        reg.append(input(f"Enter Registration Number of Student {i+1}: "))
-        
-        x = int(input("Enter the Number of Subjects: "))
-        sub_num.append(x)
-        
-        for j in range(t, x + t):
-            sub_name = input(f"Enter Name of Subject {j+1}: ")
-            subject.append(sub_name)
-            
-            p = int(input(f"Enter Total Working Days in {sub_name}: "))
-            total.append(p)
-            
-            while True:
-                q = int(input(f"Enter Days Present in {sub_name}: "))
-                if 0 <= q <= p:
-                    present.append(q)
-                    break
-                print(f"Invalid! Days present must be between 0 and {p}.")
-        t += x
-
-    print("\n\n" + "="*35)
+    print("\n\n" + "=" * 35)
     print("      ATTENDANCE REPORT      ")
-    print("="*35)
+    print("=" * 35)
 
     while True:
         print("\nMenu:")
         print("1. View Attendance Report Of All Students")
         print("2. View Attendance Report Of Specific Student")
         print("3. Exit")
-        
-        try:
-            choice = int(input("Enter choice (1-3): "))
-        except ValueError:
-            print("Invalid option. Please enter a number.")
-            continue
 
-        if choice == 1:
-            t = 0
-            for i in range(n):
-                print(f"\nName: {student[i]}")
-                print(f"Registration No.: {reg[i]}")
-                for j in range(t, sub_num[i] + t):
-                    display(j, subject, total, present)
-                t += sub_num[i]
+        c = ask_int("Enter choice (1-3): ")
 
-        elif choice == 2:
-            target_reg = input("\nEnter Student Registration Number: ")
-            found_index = -1
-            
-            for i in range(n):
-                if reg[i] == target_reg:
-                    found_index = i
-                    break
-            
-            if found_index == -1:
-                print("Registration Number Not Found.")
+        if c == 1:
+            for st in students:
+                show(st)
+        elif c == 2:
+            r = input("\nEnter Student Registration Number: ").strip().lower()
+            found = next((s for s in students if s["reg"].lower() == r), None)
+            if found:
+                show(found)
             else:
-                t = sum(sub_num[:found_index])
-                print(f"\nName: {student[found_index]}")
-                print(f"Registration No.: {reg[found_index]}")
-                for j in range(t, sub_num[found_index] + t):
-                    display(j, subject, total, present)
-
-        elif choice == 3:
+                print("Registration Number Not Found.")
+        elif c == 3:
             print("Exiting Attendance Tracker. Goodbye!")
             break
         else:
             print("Enter a valid choice (1-3).")
-
-
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except (KeyboardInterrupt, EOFError):
+        print("\nProgram stopped. Goodbye!")
