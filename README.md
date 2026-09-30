@@ -35,7 +35,7 @@ A lightweight Command Line Interface (CLI) application built using Python to rec
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/SKHexNexus/VIT-Bhopal-Projects.git
+   https://github.com/SKHexNexus/VIT-Bhopal-Projects
 
 2. **Navigate to the project directory:
    ```bash
