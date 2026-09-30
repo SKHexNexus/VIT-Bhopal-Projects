@@ -1,8 +1,8 @@
 """
 Student Attendance Tracker CLI
+Python 3.14.7
 """
 def ask_int(msg, lo=None, hi=None):
-    """Keep asking until the user types a valid whole number in range."""
     while True:
         try:
             v = int(input(msg).strip())
@@ -17,7 +17,6 @@ def ask_int(msg, lo=None, hi=None):
             return v
 
 def ask_text(msg):
-    """Keep asking until the user types something non-empty."""
     while True:
         s = input(msg).strip()
         if s:
